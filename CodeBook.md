@@ -6,8 +6,74 @@ meansPerActivityAndUser
 
 Variable                                   | Comments
 -------------------------------------------|-----------
-Subject                                    |  Subject identifier of volunteer (1-30)
-Activity                                   |  Name of the activity performed (LAYING,SITTING,STANDING,WALKING,WALKING_DOWNSTAIRS,WALKING_UPSTAIRS)
+Subject                                    | Subject id (1-30)
+Activity                                   | Activity performed during the observation (LAYING, SITTING, STANDING, WALKING, WALKING_DOWNSTAIRS, WALKING_UPSTAIRS)
+timeBodyAccelerometerMeanX                 | Mean of tBodyAcc-mean()-X
+timeBodyAccelerometerMeanY                 | Mean of tBodyAcc-mean()-Y
+timeBodyAccelerometerMeanZ                 | Mean of tBodyAcc-mean()-Z
+timeBodyAccelerometerStdX                  | Mean of tBodyAcc-std()-X
+timeBodyAccelerometerStdY                  | Mean of tBodyAcc-std()-Y
+timeBodyAccelerometerStdZ                  | Mean of tBodyAcc-std()-Z
+timeGravityAccelerometerMeanX              | Mean of tGravityAcc-mean()-X
+timeGravityAccelerometerMeanY              | Mean of tGravityAcc-mean()-Y
+timeGravityAccelerometerMeanZ              | Mean of tGravityAcc-mean()-Z
+timeGravityAccelerometerStdX               | Mean of tGravityAcc-std()-X
+timeGravityAccelerometerStdY               | Mean of tGravityAcc-std()-Y
+timeGravityAccelerometerStdZ               | Mean of tGravityAcc-std()-Z
+timeBodyAccelerometerJerkMeanX             | Mean of tBodyAccJerk-mean()-X
+timeBodyAccelerometerJerkMeanY             | Mean of tBodyAccJerk-mean()-Y
+timeBodyAccelerometerJerkMeanZ             | Mean of tBodyAccJerk-mean()-Z
+timeBodyAccelerometerJerkStdX              | Mean of tBodyAccJerk-std()-X
+timeBodyAccelerometerJerkStdY              | Mean of tBodyAccJerk-std()-Y
+timeBodyAccelerometerJerkStdZ              | Mean of tBodyAccJerk-std()-Z
+timeBodyGyroscopeMeanX                     | Mean of tBodyGyro-mean()-X
+timeBodyGyroscopeMeanY                     | Mean of tBodyGyro-mean()-Y
+timeBodyGyroscopeMeanZ                     | Mean of tBodyGyro-mean()-Z
+timeBodyGyroscopeStdX                      | Mean of tBodyGyro-std()-X
+timeBodyGyroscopeStdY                      | Mean of tBodyGyro-std()-Y
+timeBodyGyroscopeStdZ                      | Mean of tBodyGyro-std()-Z
+timeBodyGyroscopeJerkMeanX                 | Mean of tBodyGyroJerk-mean()-X
+timeBodyGyroscopeJerkMeanY                 | Mean of tBodyGyroJerk-mean()-Y
+timeBodyGyroscopeJerkMeanZ                 | Mean of tBodyGyroJerk-mean()-Z
+timeBodyGyroscopeJerkStdX                  | Mean of tBodyGyroJerk-std()-X
+timeBodyGyroscopeJerkStdY                  | Mean of tBodyGyroJerk-std()-Y
+timeBodyGyroscopeJerkStdZ                  | Mean of tBodyGyroJerk-std()-Z
+timeBodyAccelerometerMagMean               | Mean of tBodyAccMag-mean()
+timeBodyAccelerometerMagStd                | Mean of tBodyAccMag-std()
+timeGravityAccelerometerMagMean            | Mean of tGravityAccMag-mean()
+timeGravityAccelerometerMagStd             | Mean of tGravityAccMag-std()
+timeBodyAccelerometerJerkMagMean           | Mean of tBodyAccJerkMag-mean()
+timeBodyAccelerometerJerkMagStd            | Mean of tBodyAccJerkMag-std()
+timeBodyGyroscopeMagMean                   | Mean of tBodyGyroMag-mean()
+timeBodyGyroscopeMagStd                    | Mean of tBodyGyroMag-std()
+timeBodyGyroscopeJerkMagMean               | Mean of tBodyGyroJerkMag-mean()
+timeBodyGyroscopeJerkMagStd                | Mean of tBodyGyroJerkMag-std()
+frequencyBodyAccelerometerMeanX            | Mean of fBodyAcc-mean()-X
+frequencyBodyAccelerometerMeanY            | Mean of fBodyAcc-mean()-Y
+frequencyBodyAccelerometerMeanZ            | Mean of fBodyAcc-mean()-Z
+frequencyBodyAccelerometerStdX             | Mean of fBodyAcc-std()-X
+frequencyBodyAccelerometerStdY             | Mean of fBodyAcc-std()-Y
+frequencyBodyAccelerometerStdZ             | Mean of fBodyAcc-std()-Z
+frequencyBodyAccelerometerJerkMeanX        | Mean of fBodyAccJerk-mean()-X
+frequencyBodyAccelerometerJerkMeanY        | Mean of fBodyAccJerk-mean()-Y
+frequencyBodyAccelerometerJerkMeanZ        | Mean of fBodyAccJerk-mean()-Z
+frequencyBodyAccelerometerJerkStdX         | Mean of fBodyAccJerk-std()-X
+frequencyBodyAccelerometerJerkStdY         | Mean of fBodyAccJerk-std()-Y
+frequencyBodyAccelerometerJerkStdZ         | Mean of fBodyAccJerk-std()-Z
+frequencyBodyGyroscopeMeanX                | Mean of fBodyGyro-mean()-X
+frequencyBodyGyroscopeMeanY                | Mean of fBodyGyro-mean()-Y
+frequencyBodyGyroscopeMeanZ                | Mean of fBodyGyro-mean()-Z
+frequencyBodyGyroscopeStdX                 | Mean of fBodyGyro-std()-X
+frequencyBodyGyroscopeStdY                 | Mean of fBodyGyro-std()-Y
+frequencyBodyGyroscopeStdZ                 | Mean of fBodyGyro-std()-Z
+frequencyBodyAccelerometerMagMean          | Mean of fBodyAccMag-mean()
+frequencyBodyAccelerometerMagStd           | Mean of fBodyAccMag-std()
+frequencyBodyBodyAccelerometerJerkMagMean  | Mean of fBodyBodyAccJerkMag-mean()
+frequencyBodyBodyAccelerometerJerkMagStd   | Mean of fBodyBodyAccJerkMag-std()
+frequencyBodyBodyGyroscopeMagMean          | Mean of fBodyBodyGyroMag-mean()
+frequencyBodyBodyGyroscopeMagStd           | Mean of fBodyBodyGyroMag-std()
+frequencyBodyBodyGyroscopeJerkMagMean      | Mean of fBodyBodyGyroJerkMag-mean()
+frequencyBodyBodyGyroscopeJerkMagStd       | Mean of fBodyBodyGyroJerkMag-std()
 
 
 ## Transformations
