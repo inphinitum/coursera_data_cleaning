@@ -1,90 +1,75 @@
-# Gather data and load it onto a dataset
-FUCI_HAR_Dataset_URL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-FUCI_HAR_Dataset_Filename <- "data/FUCI_HAR.zip"
-download.file(FUCI_HAR_Dataset_URL, FUCI_HAR_Dataset_Filename)
-unzip(FUCI_HAR_Dataset_Filename, exdir = "data")
+library(dplyr)
 
-###########
-### STEP 1: Merge training and test sets
-###########
+path <- getwd()
+pathData <- file.path(path, "data")
+dataFile <- file.path(pathData, "FUCI_HAR.zip")
+
+# Download and unpack data if not present
+if(!file.exists(dataFile)) {
+  dir.create(pathData)
+  url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+  download.file(url, dataFile)
+  unzip(dataFile, exdir = pathData)
+}
+
+pathDataUCIHAR <- file.path(pathData, "UCI HAR Dataset")
+
 # Measurement data is stored in test/X_test.txt and train/X_train.txt
 # Labels are stored in test/y_test.txt and train/y_train.txt
 # Subjects are stored in test/subject_test.txt and train/subject_train.txt
 
-# NOTE: We're doing step 4 from the beginning since it simplifies things later on.
-# Read variable names here, so we can assign them as soon as we've read the test and train data sets.
-featuresFilename <- "data/UCI HAR Dataset/features.txt"
-features <- read.table(featuresFilename)
+# Read feature names and convert factor to strings, so we can assign them later to variable names
+variableNames <- read.table(file.path(pathDataUCIHAR, "features.txt"))
+variableNames <- sapply(variableNames$V2, as.character)
 
-# Convert factor to strings, so we can assign them later to variable names
-features <- sapply(features$V2, as.character)
+# Load measurement data from both train and test, combine datasets, assign variable names.
+# Offset to only keep std dev and mean variables
+testMeasurement <- read.table(file.path(pathDataUCIHAR, "test", "X_test.txt"))
+trainMeasurement <- read.table(file.path(pathDataUCIHAR, "train", "X_train.txt"))
+fullMeasurement <- rbind(testMeasurement, trainMeasurement)
+names(fullMeasurement) <- variableNames
+fullMeasurement <- fullMeasurement[, grep("std|mean", variableNames)]
 
-# Load measurement, activity and subject data for test data
-testDataFilename <- "data/UCI HAR Dataset/test/X_test.txt"
-testDataLabelsFilename <- "data/UCI HAR Dataset/test/y_test.txt"
-testDataSubjectsFilename <- "data/UCI HAR Dataset/test/subject_test.txt"
-testData <- read.table(testDataFilename)
+# Remove temporary objects
+remove(testMeasurement, trainMeasurement, variableNames)
 
-# Assign descriptive variable names as per step 4 in the instructions
-names(testData) <- features
+# Load subject and activity data, combine test, train, and measurement data in a single data set
+testActivity <- read.table(file.path(pathDataUCIHAR, "test", "y_test.txt"))
+trainActivity <- read.table(file.path(pathDataUCIHAR, "train", "y_train.txt"))
+fullActivity <- rbind(testActivity, trainActivity)
+names(fullActivity) <- "Activity"
+remove(testActivity, trainActivity)
 
-# Offset the data as per step 2 in the instructions
-indexesMeanAndStdVariables <- grep("std()|mean()", features)
-testData <- testData[, indexesMeanAndStdVariables]
+testSubject <- read.table(file.path(pathDataUCIHAR, "test", "subject_test.txt"))
+trainSubject <- read.table(file.path(pathDataUCIHAR, "train", "subject_train.txt"))
+fullSubject <- rbind(testSubject, trainSubject)
+names(fullSubject) <- "Subject"
+remove(testSubject, trainSubject)
 
-testDataLabels <- read.table(testDataLabelsFilename)
-names(testDataLabels) <- "Activity"
-testDataSubjects <- read.table(testDataSubjectsFilename)
-names(testDataSubjects) <- "Subject"
-testData <- cbind(testDataSubjects, testDataLabels, testData)
+# Combine subject, activity, measurement datasets. Clean up temporary datasets.
+fullData <- cbind(fullSubject, fullActivity, fullMeasurement)
+remove(fullSubject, fullActivity, fullMeasurement)
 
-# Load measurement, activity and subject data for train data
-trainDataFilename <- "data/UCI HAR Dataset/train/X_train.txt"
-trainDataLabelsFilename <- "data/UCI HAR Dataset/train/y_train.txt"
-trainDataSubjectsFilename <- "data/UCI HAR Dataset/train/subject_train.txt"
-trainData <- read.table(trainDataFilename)
-
-# Assign descriptive variable names as per step 4 in the instructions
-names(trainData) <- features
-
-# Offset the data as per step 2 in the instructions
-trainData <- trainData[, indexesMeanAndStdVariables]
-
-trainDataLabels <- read.table(trainDataLabelsFilename)
-names(trainDataLabels) <- "Activity"
-trainDataSubjects <- read.table(trainDataSubjectsFilename)
-names(trainDataSubjects) <- "Subject"
-trainData <- cbind(trainDataSubjects, trainDataLabels, trainData)
-
-# Create one single dataset with test and train data
-fullData <- rbind(testData, trainData)
-
-###########
-### STEP 2: Extract only mean and standard deviation for each measurement
-###########
-# Already done earlier in step 1
-
-###########
-### STEP 3: Use descriptive activity names to name the activities in the dataset
-###########
-# Read activity labels
-activityLabelsFilename <- "data/UCI HAR Dataset/activity_labels.txt"
-activityLabels <- read.table(activityLabelsFilename)
-
-#  Convert fullData's Activity variable into a categorical one and assign labels according to read data
+# Read activity labels, convert fullData's Activity variable into a categorical one
+# and assign labels according to read data
+activityLabels <- read.table(file.path(pathDataUCIHAR, "activity_labels.txt"))
 fullData$Activity <- factor(fullData$Activity, labels=activityLabels$V2)
+remove(activityLabels)
 
-#########
-# STEP 4: Label data set with descriptive variable names
-#########
-# Already done earlier in step 1.
+# Tidy up variable names
+names(fullData) <- gsub("-", "", names(fullData))
+names(fullData) <- gsub("^t", "time", names(fullData))
+names(fullData) <- gsub("^f", "frequency", names(fullData))
+names(fullData) <- gsub("[Aa]cc", "Accelerometer", names(fullData))
+names(fullData) <- gsub("[Gg]yr", "Gyroscope", names(fullData))
+names(fullData) <- gsub("[Mm]ean[(*][)*]", "Mean", names(fullData))
+names(fullData) <- gsub("[Ss]td[(*][)*]", "Std", names(fullData))
+names(fullData) <- gsub("[Ff]req[(*][)*]", "Freq", names(fullData))
 
-###########
-### Step 5: Create a second, independent tidy dataset with the average of each variable for each activity
-#           and each subject
-###########
-library(dplyr)
+# Create a separate dataset with the average of each variable for each activity and subject
 meansPerActivityAndUser <- fullData %>%
   group_by(Subject, Activity) %>%
-  summarize_all(mean)
+  summarize_each(mean)
+
+write.table(meansPerActivityAndUser, file.path(path, "means_per_activity_and_user.txt"), row.names = FALSE)
           
