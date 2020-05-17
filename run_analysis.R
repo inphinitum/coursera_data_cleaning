@@ -28,7 +28,7 @@ testMeasurement <- read.table(file.path(pathDataUCIHAR, "test", "X_test.txt"))
 trainMeasurement <- read.table(file.path(pathDataUCIHAR, "train", "X_train.txt"))
 fullMeasurement <- rbind(testMeasurement, trainMeasurement)
 names(fullMeasurement) <- variableNames
-fullMeasurement <- fullMeasurement[, grep("std|mean", variableNames)]
+fullMeasurement <- fullMeasurement[, grep("std\\(\\)|mean\\(\\)", variableNames)]
 
 # Remove temporary objects
 remove(testMeasurement, trainMeasurement, variableNames)
@@ -72,4 +72,3 @@ meansPerActivityAndUser <- fullData %>%
   summarize_each(mean)
 
 write.table(meansPerActivityAndUser, file.path(path, "means_per_activity_and_user.txt"), row.names = FALSE)
-          
