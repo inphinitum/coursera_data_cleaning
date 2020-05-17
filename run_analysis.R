@@ -5,11 +5,29 @@ download.file(FUCI_HAR_Dataset_URL, FUCI_HAR_Dataset_Filename)
 unzip(FUCI_HAR_Dataset_Filename, exdir = "data")
 
 ### STEP 1: Merge training and test sets
-# Data is stored in test/X_test.txt and train/X_train.txt
+# Measurement data is stored in test/X_test.txt and train/X_train.txt
+# Labels are stored in test/y_test.txt and train/y_train.txt
+# Subjects are stored in test/subject_test.txt and train/subject_train.txt
+
+# Load measurement, activity and subject data
 testDataFilename <- "data/UCI HAR Dataset/test/X_test.txt"
-trainDataFilename <- "data/UCI HAR Dataset/train/X_train.txt"
+testDataLabelsFilename <- "data/UCI HAR Dataset/test/y_test.txt"
+testDataSubjectsFilename <- "data/UCI HAR Dataset/test/subject_test.txt"
 testData <- read.table(testDataFilename)
+testDataLabels <- read.table(testDataLabelsFilename)
+testDataSubjects <- read.table(testDataSubjectsFilename)
+testData <- cbind(testDataSubjects, testDataLabels, testData)
+
+# Do the same thing for the train data
+trainDataFilename <- "data/UCI HAR Dataset/train/X_train.txt"
+trainDataLabelsFilename <- "data/UCI HAR Dataset/train/y_train.txt"
+trainDataSubjectsFilename <- "data/UCI HAR Dataset/train/subject_train.txt"
 trainData <- read.table(trainDataFilename)
+trainDataLabels <- read.table(trainDataLabelsFilename)
+trainDataSubjects <- read.table(trainDataSubjectsFilename)
+trainData <- cbind(trainDataSubjects, trainDataLabels, trainData)
+
+# Bind test and train datasets
 fullData <- rbind(testData, trainData)
 
 ### STEP 2: Extract only mean and standard deviation for each measurement
